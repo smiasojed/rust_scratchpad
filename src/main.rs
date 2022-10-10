@@ -32,7 +32,7 @@ impl List {
         }
     }
 
-    fn delete(&mut self, v: u32) {
+    fn delete_all(&mut self, v: u32) {
         let mut e = &mut self.head;
         if let Some(ref mut y) = e {
             //Why it can not be a part of loop (Writing to borrowed variable error)?
@@ -47,7 +47,6 @@ impl List {
             if let Some(ref mut z) = &mut y.address {
                 if z.x == v {
                     y.address = z.address.clone();
-                    break;
                 }
             }
             e = &mut y.address;
@@ -63,11 +62,11 @@ fn main() {
     list.push(3);
     list.push(4);
     list.push(2);
-    list.delete(1);
+    list.delete_all(1);
     list.push(5);
     list.push(6);
     list.push(7);
-    list.delete(2);
-    list.delete(2);
+    list.delete_all(2);
+    list.delete_all(7);
     list.print();
 }
