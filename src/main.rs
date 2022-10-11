@@ -1,17 +1,21 @@
+
+use std::fmt::{Debug, Display};
+use std::cmp::PartialEq;
+
 #[derive(PartialEq)]
 #[derive(Debug)]
 #[derive(Clone)]
-struct Item {
-    x: u32,
-    address: Option<Box<Item>>
+struct Item<T> {
+    x: T,
+    address: Option<Box<Item<T>>>
 }
 
-struct List {
-    head: Option<Box<Item>>
+struct List<T: Display + PartialEq + Debug + Clone> {
+    head: Option<Box<Item<T>>>
 }
 
-impl List {
-    fn push(&mut self, v: u32){
+impl<T: Display + PartialEq + Debug + Clone> List<T> {
+    fn push(&mut self, v: T){
         let el = Item {x: v, address: None};
         let mut e = &mut self.head;
         loop {
@@ -32,7 +36,7 @@ impl List {
         }
     }
 
-    fn delete_all(&mut self, v: u32) {
+    fn delete_all(&mut self, v: T) {
         let mut e = &mut self.head;
         if let Some(ref mut y) = e {
             //Why it can not be a part of loop (Writing to borrowed variable error)?
@@ -52,11 +56,10 @@ impl List {
             e = &mut y.address;
         }
     }
-
 }
 
 fn main() {
-    let mut list = List {head: None};
+    let mut list = List::<u32> {head: None};
     list.push(1);
     list.push(2);
     list.push(3);
